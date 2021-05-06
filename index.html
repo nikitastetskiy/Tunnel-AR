@@ -132,6 +132,7 @@ function initialize()
 	////////////////////////////////////////////////////////////
 	
 	let loader = new THREE.TextureLoader();
+	loader.crossOrigin = "Anonymous";
 	
 	// material for portal (for debugging)
 	
@@ -143,15 +144,16 @@ function initialize()
 		opacity: 0.6
 	});
 	
-	let portalWidth = 2;
-	let portalHeight = 4;
+	let portalWidth = 5;
+	let portalHeight = 32;
 	let portalBorder = 0.1;
 	
 	portal = new THREE.Mesh(
-		new THREE.PlaneGeometry(portalWidth, portalHeight),
+		new THREE.CircleGeometry(portalWidth, portalHeight),
 		defaultMaterial
 	);
-	portal.position.y = portalHeight/2 + portalBorder;
+	portal.position.y = 0;
+	portal.rotation.x = -Math.PI/2;
 	portal.layers.set(1);
 	smoothedRoot.add(portal);
 	
@@ -161,10 +163,11 @@ function initialize()
 	
 	
 	let portalBorderMesh = new THREE.Mesh(
-		new THREE.PlaneGeometry(portalWidth + 2*portalBorder, portalHeight + 2*portalBorder),
+		new THREE.CircleGeometry(portalWidth + 2*portalBorder, portalHeight + 2*portalBorder),
 		portalMaterial
 	);
 	portalBorderMesh.position.y = portal.position.y;
+	portalBorderMesh.position.x = portal.rotation.x;
 	portalBorderMesh.layers.set(0);
 	smoothedRoot.add(portalBorderMesh);
 	
@@ -172,12 +175,12 @@ function initialize()
 	
 	// textures from http://www.humus.name/
 	let skyMaterialArray = [
-		new THREE.MeshBasicMaterial( { map: loader.load("images/mountain/posx.jpg"), side: THREE.BackSide } ),
-		new THREE.MeshBasicMaterial( { map: loader.load("images/mountain/negx.jpg"), side: THREE.BackSide } ),
-		new THREE.MeshBasicMaterial( { map: loader.load("images/mountain/posy.jpg"), side: THREE.BackSide } ),
-		new THREE.MeshBasicMaterial( { map: loader.load("images/mountain/negy.jpg"), side: THREE.BackSide } ),
-		new THREE.MeshBasicMaterial( { map: loader.load("images/mountain/posz.jpg"), side: THREE.BackSide } ),
-		new THREE.MeshBasicMaterial( { map: loader.load("images/mountain/negz.jpg"), side: THREE.BackSide } ),
+		new THREE.MeshBasicMaterial( { map: loader.load("https://maps.googleapis.com/maps/api/staticmap?size=400x400&center=37.215801,-3.618537&zoom=15&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk"), side: THREE.BackSide } ),
+		new THREE.MeshBasicMaterial( { map: loader.load("https://maps.googleapis.com/maps/api/staticmap?size=400x400&center=37.215801,-3.618537&zoom=15&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk"), side: THREE.BackSide } ),
+		new THREE.MeshBasicMaterial( { map: loader.load("https://maps.googleapis.com/maps/api/staticmap?size=400x400&center=37.215801,-3.618537&zoom=15&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk"), side: THREE.BackSide } ),
+		new THREE.MeshBasicMaterial( { map: loader.load("https://maps.googleapis.com/maps/api/staticmap?size=400x400&center=37.215801,-3.618537&zoom=15&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk"), side: THREE.BackSide } ),
+		new THREE.MeshBasicMaterial( { map: loader.load("https://maps.googleapis.com/maps/api/staticmap?size=400x400&center=37.215801,-3.618537&zoom=15&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk"), side: THREE.BackSide } ),
+		new THREE.MeshBasicMaterial( { map: loader.load("https://maps.googleapis.com/maps/api/staticmap?size=400x400&center=37.215801,-3.618537&zoom=15&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk"), side: THREE.BackSide } ),
 	];
 	let skyMesh = new THREE.Mesh(
 		new THREE.CubeGeometry(30,30,30),
