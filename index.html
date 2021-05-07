@@ -91,7 +91,6 @@ const getLocation = async () => {
 };
 
 getLocation().then(res => {
-	console.log(geoloc.coords);
 	initialize();
 	animate();
 });
@@ -245,6 +244,7 @@ function initialize()
 		new THREE.MeshBasicMaterial( { map: loader.load(`https://maps.googleapis.com/maps/api/staticmap?size=1024x1024&scale=2&center=${geoloc.latitude},${geoloc.longitude}&zoom=${geozoom}&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk`), side: THREE.BackSide } ),
 		new THREE.MeshBasicMaterial( { map: loader.load(`https://maps.googleapis.com/maps/api/staticmap?size=1024x1024&scale=2&center=${geoloc.latitude},${geoloc.longitude}&zoom=${geozoom}&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk`), side: THREE.BackSide } ),
 	];
+	console.log(geoloc.coords);
 	let skyMesh = new THREE.Mesh(
 		new THREE.CubeGeometry(13,3,13),
 		skyMaterialArray );
