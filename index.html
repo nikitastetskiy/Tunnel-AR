@@ -40,7 +40,7 @@ var portal, portalMaterial;
 ////////////////////////////////////////////////////////////
 
 var geoloc;
-var geozoom = 15;
+var geozoom = 14;
 geoloc = {
         latitude: "-43.3744881",
         longitude: "172.4662705",
@@ -77,18 +77,19 @@ const getCoords = () => {
 const getLocation = async () => {
 	let pos = await getCoords();
 	console.log(pos.coords);
-	maxZoomService = new google.maps.MaxZoomService();
-	await maxZoomService.getMaxZoomAtLatLng(pos.coords, function(response) {
-		if (response.status !== 'OK') {
-			alert('maxZoomService error: ' + response.status);
-		} else {
-			if (response.zoom < geozoom) {
-				geozoom = response.zoom;
-			}
-		}
-	});
+	// maxZoomService = new google.maps.MaxZoomService();
+	// await maxZoomService.getMaxZoomAtLatLng({pos.coords.latitude,pos.}, function(response) {
+	// 	if (response.status !== 'OK') {
+	// 		alert('maxZoomService error: ' + response.status);
+	// 	} else {
+	// 		if (response.zoom < geozoom) {
+	// 			geozoom = response.zoom;
+	// 		}
+	// 	}
+	// });
 	geoloc.latitude = pos.coords.latitude * -1;
 	geoloc.longitude = pos.coords.longitude < 0 ? pos.coords.longitude + 180 : pos.coords.longitude - 180;
+	console.log(geoloc.coords);
 };
 
 getLocation().then(res => {
