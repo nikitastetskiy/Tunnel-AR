@@ -37,6 +37,10 @@ var portal, portalMaterial;
 ////////////////////////////////////////////////////////////
 
 var geoloc;
+geoloc = {
+        latitude: "-43.3744881",
+        longitude: "172.4662705",
+};
 
 var options = {
 	enableHighAccuracy: true,
@@ -44,29 +48,41 @@ var options = {
 	maximumAge: 0
 };
 
-function success(pos) {
-	var crd = pos.coords;
-	geoloc = crd;
-	geoloc.latitude = crd.latitude * -1;
-	geoloc.longitude = crd.longitude < 0 ? crd.longitude + 180 : crd.longitude - 180;
-	console.log('Your current position is:');
-	console.log('Latitude : ' + geoloc.latitude);
-	console.log('Longitude: ' + geoloc.longitude);
-	console.log('More or less ' + geoloc.accuracy + ' meters.');
-};
+// function success(pos) {
+// 	var crd = pos.coords;
+// 	geoloc = crd;
+// 	geoloc.latitude = crd.latitude * -1;
+// 	geoloc.longitude = crd.longitude < 0 ? crd.longitude + 180 : crd.longitude - 180;
+// 	console.log('Your current position is:');
+// 	console.log('Latitude : ' + geoloc.latitude);
+// 	console.log('Longitude: ' + geoloc.longitude);
+// 	console.log('More or less ' + geoloc.accuracy + ' meters.');
+// };
 
 function error(err) {
-	geoloc = {
-        latitude: "-43.3744881",
-        longitude: "172.4662705",
-    }
 	alert('Unable to retrieve your location');
 };
 
-await navigator.geolocation.getCurrentPosition(success, error, options);
+// await navigator.geolocation.getCurrentPosition(success, error, options);
 
-initialize();
-animate();
+const getCoords = () => {
+	return new Promise((resolve, reject) => {
+		navigator.geolocation.getCurrentPosition(resolve, reject, options, error);
+	});
+}
+
+const getLocation = async () => {
+	let pos = await getCoords();
+	geoloc.latitude = pos.coords.latitude * -1;
+	geoloc.longitude = pos.coords.longitude < 0 ? pos.coords.longitude + 180 : pos.coords.longitude - 180;
+};
+
+getLocation().then(res => {
+	initialize();
+	animate();
+});
+
+
 
 function initialize()
 {
