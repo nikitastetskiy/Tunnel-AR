@@ -76,6 +76,7 @@ const getCoords = () => {
 
 const getLocation = async () => {
 	let pos = await getCoords();
+	console.log(pos.coords);
 	maxZoomService = new google.maps.MaxZoomService();
 	await maxZoomService.getMaxZoomAtLatLng(pos.coords, function(response) {
 		if (response.status !== 'OK') {
