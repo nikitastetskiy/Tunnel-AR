@@ -84,7 +84,9 @@ const getLocation = async () => {
 		} else {
 			if (response.zoom < geozoom) {
 				geozoom = response.zoom;
+				console.log("geozoom 1 -> " + geozoom);
 			}
+			console.log("geozoom 2 -> " + geozoom);
 		}
 	});
 };
