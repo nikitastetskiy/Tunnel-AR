@@ -63,7 +63,7 @@ function error(err) {
 	alert('Unable to retrieve your location');
 };
 
-navigator.geolocation.getCurrentPosition(success, error, options);
+await navigator.geolocation.getCurrentPosition(success, error, options);
 
 initialize();
 animate();
