@@ -36,7 +36,7 @@ var portal, portalMaterial;
 // setup geoLOCATION
 ////////////////////////////////////////////////////////////
 
-let geoloc;
+var geoloc;
 
 var options = {
 	enableHighAccuracy: true,
@@ -56,6 +56,10 @@ function success(pos) {
 };
 
 function error(err) {
+	geoloc = {
+        latitude: "-43.3744881",
+        longitude: "172.4662705",
+    }
 	alert('Unable to retrieve your location');
 };
 
