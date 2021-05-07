@@ -39,7 +39,7 @@ var portal, portalMaterial;
 // setup geoLOCATION
 ////////////////////////////////////////////////////////////
 
-var geozoom = 15;
+var geozoom = 14;
 var geoloc = {
         latitude: "-43.3744881",
         longitude: "172.4662705",
@@ -73,21 +73,28 @@ const getCoords = () => {
 	});
 }
 
+const getZoom = () => {
+	return new Promise(function(resolve, reject) {
+		var maxZoomService = new google.maps.MaxZoomService();
+		maxZoomService.getMaxZoomAtLatLng(
+			{ lat: parseFloat(geoloc.latitude), lng: parseFloat(geoloc.longitude) },
+			function(response){
+				if (response.status == google.maps.MaxZoomStatus.OK) {
+					resolve(response.zoom);
+				} else {
+					alert('Failed to get info about max zoom level for Google Sattelite layer');
+				}
+			});
+		});
+}
+
 const getLocation = async () => {
 	let pos = await getCoords();
 	geoloc.latitude = pos.coords.latitude * -1;
 	geoloc.longitude = pos.coords.longitude < 0 ? pos.coords.longitude + 180 : pos.coords.longitude - 180;
 	maxZoomService = new google.maps.MaxZoomService();
-	geozoom = await maxZoomService.getMaxZoomAtLatLng({ lat: parseFloat(geoloc.latitude), lng: parseFloat(geoloc.longitude) }, function(response) {
-		if (response.status !== 'OK') {
-			alert('maxZoomService error: ' + response.status);
-		} else {
-			if (response.zoom < geozoom) {
-				return response.zoom;
-			}
-		}
-		return 15;
-	});
+	pos = await getZoom();
+	geozoom = pos < geozoom ? pos : geozoom;
 };
 
 getLocation().then(res => {
@@ -236,7 +243,6 @@ function initialize()
 	// the world beyond the portal
 	
 	// textures from http://www.humus.name/
-	console.log(geozoom);
 	let skyMaterialArray = [
 		new THREE.MeshBasicMaterial( { map: loader.load(`https://maps.googleapis.com/maps/api/staticmap?size=1024x1024&scale=2&center=${geoloc.latitude},${geoloc.longitude}&zoom=${geozoom}&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk`), side: THREE.BackSide } ),
 		new THREE.MeshBasicMaterial( { map: loader.load(`https://maps.googleapis.com/maps/api/staticmap?size=1024x1024&scale=2&center=${geoloc.latitude},${geoloc.longitude}&zoom=${geozoom}&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk`), side: THREE.BackSide } ),
@@ -245,7 +251,6 @@ function initialize()
 		new THREE.MeshBasicMaterial( { map: loader.load(`https://maps.googleapis.com/maps/api/staticmap?size=1024x1024&scale=2&center=${geoloc.latitude},${geoloc.longitude}&zoom=${geozoom}&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk`), side: THREE.BackSide } ),
 		new THREE.MeshBasicMaterial( { map: loader.load(`https://maps.googleapis.com/maps/api/staticmap?size=1024x1024&scale=2&center=${geoloc.latitude},${geoloc.longitude}&zoom=${geozoom}&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk`), side: THREE.BackSide } ),
 	];
-	console.log(geozoom);
 	let skyMesh = new THREE.Mesh(
 		new THREE.CubeGeometry(13,3,13),
 		skyMaterialArray );
