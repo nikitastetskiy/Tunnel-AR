@@ -39,7 +39,7 @@ var portal, portalMaterial;
 // setup geoLOCATION
 ////////////////////////////////////////////////////////////
 
-var geozoom = 14;
+var geozoom = 15;
 var geoloc = {
         latitude: "-43.3744881",
         longitude: "172.4662705",
@@ -83,10 +83,10 @@ const getLocation = async () => {
 			alert('maxZoomService error: ' + response.status);
 		} else {
 			if (response.zoom < geozoom) {
-				geozoom = response.zoom;
+				return response.zoom;
 			}
 		}
-		return geozoom;
+		return 15;
 	});
 };
 
