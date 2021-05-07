@@ -37,6 +37,7 @@ var portal, portalMaterial;
 ////////////////////////////////////////////////////////////
 
 var geoloc;
+var geozoom = 15;
 geoloc = {
         latitude: "-43.3744881",
         longitude: "172.4662705",
@@ -73,6 +74,16 @@ const getCoords = () => {
 
 const getLocation = async () => {
 	let pos = await getCoords();
+	maxZoomService = new google.maps.MaxZoomService();
+	await maxZoomService.getMaxZoomAtLatLng(pos, function(response) {
+		if (response.status !== 'OK') {
+			alert('maxZoomService error: ' + response.status);
+		} else {
+			if (response.zoom < geozoom) {
+				geozoom = response.zoom;
+			}
+		}
+	});
 	geoloc.latitude = pos.coords.latitude * -1;
 	geoloc.longitude = pos.coords.longitude < 0 ? pos.coords.longitude + 180 : pos.coords.longitude - 180;
 };
@@ -224,12 +235,12 @@ function initialize()
 	
 	// textures from http://www.humus.name/
 	let skyMaterialArray = [
-		new THREE.MeshBasicMaterial( { map: loader.load(`https://maps.googleapis.com/maps/api/staticmap?v=3.35&size=1300x1300&scale=2&center=${geoloc.latitude},${geoloc.longitude}&zoom=15&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk`), side: THREE.BackSide } ),
-		new THREE.MeshBasicMaterial( { map: loader.load(`https://maps.googleapis.com/maps/api/staticmap?v=3.35&size=1300x1300&scale=2&center=${geoloc.latitude},${geoloc.longitude}&zoom=15&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk`), side: THREE.BackSide } ),
-		new THREE.MeshBasicMaterial( { map: loader.load(`https://maps.googleapis.com/maps/api/staticmap?v=3.35&size=1300x1300&scale=2&center=${geoloc.latitude},${geoloc.longitude}&zoom=15&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk`), side: THREE.BackSide } ),
-		new THREE.MeshBasicMaterial( { map: loader.load(`https://maps.googleapis.com/maps/api/staticmap?v=3.35&size=1300x1300&scale=2&center=${geoloc.latitude},${geoloc.longitude}&zoom=15&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk`), side: THREE.BackSide } ),
-		new THREE.MeshBasicMaterial( { map: loader.load(`https://maps.googleapis.com/maps/api/staticmap?v=3.35&size=1300x1300&scale=2&center=${geoloc.latitude},${geoloc.longitude}&zoom=15&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk`), side: THREE.BackSide } ),
-		new THREE.MeshBasicMaterial( { map: loader.load(`https://maps.googleapis.com/maps/api/staticmap?v=3.35&size=1300x1300&scale=2&center=${geoloc.latitude},${geoloc.longitude}&zoom=15&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk`), side: THREE.BackSide } ),
+		new THREE.MeshBasicMaterial( { map: loader.load(`https://maps.googleapis.com/maps/api/staticmap?size=1024x1024&scale=2&center=${geoloc.latitude},${geoloc.longitude}&zoom=${geozoom}&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk`), side: THREE.BackSide } ),
+		new THREE.MeshBasicMaterial( { map: loader.load(`https://maps.googleapis.com/maps/api/staticmap?size=1024x1024&scale=2&center=${geoloc.latitude},${geoloc.longitude}&zoom=${geozoom}&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk`), side: THREE.BackSide } ),
+		new THREE.MeshBasicMaterial( { map: loader.load(`https://maps.googleapis.com/maps/api/staticmap?size=1024x1024&scale=2&center=${geoloc.latitude},${geoloc.longitude}&zoom=${geozoom}&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk`), side: THREE.BackSide } ),
+		new THREE.MeshBasicMaterial( { map: loader.load(`https://maps.googleapis.com/maps/api/staticmap?size=1024x1024&scale=2&center=${geoloc.latitude},${geoloc.longitude}&zoom=${geozoom}&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk`), side: THREE.BackSide } ),
+		new THREE.MeshBasicMaterial( { map: loader.load(`https://maps.googleapis.com/maps/api/staticmap?size=1024x1024&scale=2&center=${geoloc.latitude},${geoloc.longitude}&zoom=${geozoom}&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk`), side: THREE.BackSide } ),
+		new THREE.MeshBasicMaterial( { map: loader.load(`https://maps.googleapis.com/maps/api/staticmap?size=1024x1024&scale=2&center=${geoloc.latitude},${geoloc.longitude}&zoom=${geozoom}&maptype=satellite&key=AIzaSyDpK4zagePMMZTeEWLQgFT6iZqGfNs34rk`), side: THREE.BackSide } ),
 	];
 	let skyMesh = new THREE.Mesh(
 		new THREE.CubeGeometry(13,3,13),
