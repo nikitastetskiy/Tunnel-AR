@@ -88,10 +88,10 @@ const getLocation = async () => {
 	// });
 	geoloc.latitude = pos.coords.latitude * -1;
 	geoloc.longitude = pos.coords.longitude < 0 ? pos.coords.longitude + 180 : pos.coords.longitude - 180;
-	console.log(geoloc.coords);
 };
 
 getLocation().then(res => {
+	console.log(geoloc.coords);
 	initialize();
 	animate();
 });
