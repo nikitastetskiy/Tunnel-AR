@@ -47,10 +47,12 @@ var options = {
 function success(pos) {
 	var crd = pos.coords;
 	geoloc = crd;
+	geoloc.latitude = crd.latitude * -1;
+	geoloc.longitude = crd.longitude < 0 ? crd.longitude + 180 : crd.longitude - 180;
 	console.log('Your current position is:');
-	console.log('Latitude : ' + crd.latitude);
-	console.log('Longitude: ' + crd.longitude);
-	console.log('More or less ' + crd.accuracy + ' meters.');
+	console.log('Latitude : ' + geoloc.latitude);
+	console.log('Longitude: ' + geoloc.longitude);
+	console.log('More or less ' + geoloc.accuracy + ' meters.');
 };
 
 function error(err) {
